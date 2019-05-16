@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public enum State { Idle, Locomotion, Jump, Die, Reset, Attack, Patrol }
 
 public class actorControl : MonoBehaviour
 {
+    [Header("Player UI Compinents")]
+    public Image HpBar;
+
     public GameObject model;
     public cameracontrol camcon;
+    public Camera cam;
     public IUserInput pi;
     public float walkspeed = 2.4f;
     public float runMultiplier = 2.0f;
@@ -33,6 +38,7 @@ public class actorControl : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        cam = Camera.main;
         IUserInput[] inputs = GetComponents<IUserInput>();
         foreach (var input in inputs)
         {
@@ -93,27 +99,6 @@ public class actorControl : MonoBehaviour
 
         }
 
-        if ((pi.rt || pi.lt) && (CheckState("ground") || CheckStateTag("attackR") || CheckStateTag("attackL")) && canAttack)
-        {
-            if (pi.rt)
-            {
-             
-            }
-            else
-            {
-                if (!leftIsShield)
-                {
-
-                }
-                else
-                {
-                    anim.SetTrigger("counterBack");
-                }
-                        
-            }
-
-        }
-
         if (leftIsShield)
         {
             if (CheckState("ground")||CheckState("blocked"))
@@ -124,7 +109,7 @@ public class actorControl : MonoBehaviour
             else
             {
                 anim.SetBool("defense", false);
-                anim.SetLayerWeight(anim.GetLayerIndex("defense"), 0);
+                //anim.SetLayerWeight(anim.GetLayerIndex("defense"), 0);
             }
         }
         else
@@ -257,37 +242,18 @@ public class actorControl : MonoBehaviour
     {
         pi.inputEnabled = false;
         planerVec = Vector3.zero;
-        model.SendMessage("WeaponDisable");
+
     }
 
     public void OnDieEnter()
     {
         pi.inputEnabled = false;
         planerVec = Vector3.zero;
-        model.SendMessage("WeaponDisable");
     }
 
     public void OnBlockedEnter()
     {
         pi.inputEnabled = false;
-    }
-
-    public void OnStunnedEnter()
-    {
-        pi.inputEnabled = false;
-        planerVec = Vector3.zero;
-    }
-
-    public void OnCounterBackEnter()
-    {
-        pi.inputEnabled = false;
-        planerVec = Vector3.zero;
-    }
-
-    public void OnCounterBackExit()
-    {
-
-        model.SendMessage("CounterBackDisable");
     }
 
     public void OnUpdateRM(object _deltaPos)

@@ -40,13 +40,7 @@ public class ActorManager : MonoBehaviour
     {
 
     }
-
-    public void SetIsCounterBack(bool vaule)
-    {
-        sm.isCounterBackEnable = vaule;
-    }
-
-    public void TryDoDamage(WeaponController targetWc,bool attackValid,bool counterValid)
+    public void TryDoDamage()
     {
         ////sm.HP -= 5;
         //if (sm.HP > 0)
@@ -54,23 +48,7 @@ public class ActorManager : MonoBehaviour
         //sm.AddHP(-5);
 
         //}
-        if (sm.isCounterBackSuccess)
-        {
-            if (counterValid)
-            {
-            targetWc.wm.am.Stunned();
-
-            }
-        }
-        else if (sm.isCounterBackFailure)
-        {
-            if (attackValid)
-            {
-
-            HitOrDie(false);
-            }
-        }
-        else if (sm.isImmortal)
+        if (sm.isImmortal)
         {
 
         }
@@ -80,48 +58,28 @@ public class ActorManager : MonoBehaviour
         }
         else
         {
-            if (attackValid)
+            if (sm.HP <= 0)
             {
-
-                HitOrDie(true);
+            }
+            else { 
+                sm.AddHP(-5);
+                if (sm.HP > 0)
+                {
+                    Hit();
+                }
+                else
+                {
+                    Die();
+                }
             }
         }
        
         
 
     }
-
-    public void Stunned()
-    {
-        ac.IssueTrigger("stunned");
-    }
     public void Blocked()
     {
         ac.IssueTrigger("blocked");
-    }
-
-    public void HitOrDie(bool doHitAnimation)
-    {
-        if (sm.HP <= 0)
-        {
-        }
-        else
-        {
-            sm.AddHP(-5);
-            if (sm.HP > 0)
-            {
-                if (doHitAnimation)
-                {
-
-                Hit();
-                }
-                //do some VFx blood
-            }
-            else
-            {
-                Die();
-            }
-        }
     }
 
     public void Hit()

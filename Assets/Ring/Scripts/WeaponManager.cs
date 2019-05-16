@@ -8,9 +8,6 @@ public class WeaponManager : IActorManagerInterface
     private Collider weaponColR;
     //public ActorManager am;
 
-    public WeaponController wcL;
-    public WeaponController wcR;
-
     public GameObject whL;
     public GameObject whR;
 
@@ -20,24 +17,10 @@ public class WeaponManager : IActorManagerInterface
         whR = transform.DeepFind("weaponhandleR").gameObject;
         //weaponCol = whR.GetComponentInChildren<Collider>();
         //transform.DeepFind("123");
-        wcL = BindWeaponController(whL);
-        wcR = BindWeaponController(whR);
 
         weaponColL = whL.GetComponentInChildren<Collider>();
         weaponColR = whR.GetComponentInChildren<Collider>();
 
-    }
-
-    public WeaponController BindWeaponController(GameObject targetObj)
-    {
-        WeaponController tempWc;
-        tempWc = targetObj.GetComponent<WeaponController>();
-        if (tempWc == null)
-        {
-           tempWc = targetObj.AddComponent<WeaponController>();
-        }
-        tempWc.wm = this;
-        return tempWc;
     }
 
     public void WeaponEnable()
@@ -57,14 +40,5 @@ public class WeaponManager : IActorManagerInterface
         //print("WeaponDisable");
         weaponColR.enabled = false;
         weaponColL.enabled = false;
-    }
-
-    public void CounterBackEnable()
-    {
-        am.SetIsCounterBack(true);
-    }
-    public void CounterBackDisable()
-    {
-        am.SetIsCounterBack(false);
     }
 }
