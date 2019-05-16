@@ -19,15 +19,11 @@ public class StateManager : IActorManagerInterface
     public bool isDie;
     public bool isBlocked;
     public bool isDefense;
-    public bool isCounterBack;
-    public bool isCounterBackEnable;
 
     [Header("2st order state flags")]
 
     public bool isAllowDefense;
-    public bool isImmortal;
-    public bool isCounterBackSuccess;
-    public bool isCounterBackFailure;
+    public bool isImmortal; 
 
     void Start()
     {
@@ -46,16 +42,11 @@ public class StateManager : IActorManagerInterface
         isDie = am.ac.CheckState("die");
         isBlocked = am.ac.CheckState("blocked");
         //isDefense = am.ac.CheckState("defense1h", "defense");
-        isCounterBack = am.ac.CheckState("counterBack");
-        isCounterBackSuccess = isCounterBackEnable;
-        isCounterBackFailure = isCounterBack && !isCounterBackEnable;
 
         isAllowDefense = isGround || isBlocked;
         isDefense = isAllowDefense && am.ac.CheckState ("defense1h", "defense");
         isImmortal = isRoll || isJab;
     }
-
-
 
     public void AddHP(float vaule)
     {

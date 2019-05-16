@@ -135,12 +135,7 @@ public class EnemyAI : MonoBehaviour
         else
             animator.SetBool("Attack", false);
     }
-    void Die()
-    {
-        gameObject.GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
-        GameObject diebody = Instantiate(deathEnemy, transform.position, transform.rotation);
-
-    }
+    
 
 
     void NextWaitPoint()

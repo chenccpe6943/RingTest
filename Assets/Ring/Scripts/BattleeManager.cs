@@ -27,27 +27,10 @@ public class BattleeManager : IActorManagerInterface
 
     private void OnTriggerEnter(Collider col)
     {
-        WeaponController targetWc = col.GetComponentInParent<WeaponController>();
         //print(col.name);
-        GameObject attacker = targetWc.wm.am.gameObject;
-        GameObject receiver = am.gameObject;
-
-        Vector3 attackingdDir = receiver.transform.position - attacker.transform.position;
-        Vector3 counterDir = attacker.transform.position - receiver.transform.position;
-
-        float attackingAngle1 = Vector3.Angle(attacker.transform.forward, attackingdDir);
-        float counterAngel1 = Vector3.Angle(receiver.transform.forward, counterDir);
-        float counterAngel2 = Vector3.Angle(attacker.transform.forward, receiver.transform.forward);
-
-        bool attackValid = (attackingAngle1 < 45);
-        bool counterValid = (attackingAngle1 < 180 && Mathf.Abs(counterAngel2 - 180) < 180);
-
-        if (col.tag == "weapon")
+        if(col.tag == "weapon")
         {
-            //if(attackingAngle1 <= 45)
-            //{
-           am.TryDoDamage(targetWc,attackValid,counterValid);
-            //}
+            am.TryDoDamage();
         }
     }
 }
